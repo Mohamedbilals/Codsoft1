@@ -1,0 +1,65 @@
+import tkinter as tk
+from tkinter import ttk
+
+def press(key):
+    if key == "=":
+        try:
+            display.set(eval(display.get()))
+        except:
+            display.set("Error")
+    elif key == "C":
+        display.set("")
+    else:
+        display.set(display.get() + key)
+
+# Main window
+root = tk.Tk()
+root.title("Modern Calculator")
+root.geometry("720x520")
+root.resizable(False, False)
+
+# Style
+style = ttk.Style()
+style.theme_use("clam")
+style.configure(
+    "Calc.TButton",
+    font=("Segoe UI", 14),
+    padding=10
+)
+
+# Display
+display = tk.StringVar()
+entry = ttk.Entry(
+    root,
+    textvariable=display,
+    font=("Segoe UI", 22),
+    justify="right"
+)
+entry.pack(fill="x", padx=10, pady=15, ipady=10)
+
+# Button layout
+buttons = [
+    ["7", "8", "9", "/"],
+    ["4", "5", "6", "*"],
+    ["1", "2", "3", "-"],
+    ["0", ".", "=", "+"],
+    ["C"]
+]
+
+frame = tk.Frame(root)
+frame.pack(expand=True, fill="both")
+
+for row in buttons:
+    row_frame = tk.Frame(frame)
+    row_frame.pack(expand=True, fill="both")
+    for btn in row:
+        b = ttk.Button(
+            row_frame,
+            text=btn,
+            style="Calc.TButton",
+            command=lambda x=btn: press(x)
+        )
+        b.pack(side="left", expand=True, fill="both", padx=3, pady=3)
+
+# Start app
+root.mainloop()
